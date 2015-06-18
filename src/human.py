@@ -11,8 +11,8 @@ import time
 #   Individualism   vs      Collectivism    # 
 #   Sociability     vs      Survivalist     # 
 #   Wealthy         vs      Needy           #
-#   Strong          vs      Weak            #
-#   Smart           vs      Not-So-Smart    # 
+#   Strong          vs      Weak            #   # 
+#   Smart           vs      Dumbass         # 
 #   Leader          vs      Follower        # 
 #   Aggression      vs      Pacifism        # 
 #   Anarchist       vs      Communist       # 
