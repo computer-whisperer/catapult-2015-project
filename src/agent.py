@@ -11,7 +11,7 @@ class Agent(object):
 
         # Sociality is a measure, from -1 to 1, of how much the
         # agent likes to be near other agents.
-        self.traits["sociality"] = (random()*2)-1
+        self.traits["sociality"] = ((random()*2)-1)*((random()*2)-1)
 
 
 
