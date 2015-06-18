@@ -13,6 +13,12 @@ class Agent(object):
         # agent likes to be near other agents.
         self.traits["sociality"] = ((random()*2)-1)*((random()*2)-1)
 
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
 
+    def getX(self):
+        return self.x
 
-
+    def getY(self):
+        return self.y
