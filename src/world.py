@@ -11,7 +11,7 @@ class World(object):
     def __init__(self, dimensions):
         self.agents = []
         self.selected_agent = None
-        self.window = GraphWin(title="My World", width=dimensions.x, height=dimensions.y)
+        self.window = GraphWin(title="My World", width=dimensions.x, height=dimensions.y, autoflush=False)
         self.window.setCoords(-dimensions.x/2, dimensions.y/2, dimensions.x/2, -dimensions.y/2)
         self.window.setBackground(color_rgb(255, 255, 255))
         self.dimensions = dimensions
@@ -28,7 +28,7 @@ class World(object):
         self.population_gen_params.update(params)
 
     def add_agent(self, agent):
-        agent.draw(self.window)
+        agent.set_world(self)
         self.agents.append(agent)
         self.selected_agent = agent
 
@@ -41,7 +41,7 @@ class World(object):
         params = self.population_gen_params
 
         for agent in self.agents:
-            agent.undraw()
+            agent.set_world(None)
         self.agents = []
         params["agent_class"].reset_id()
         for _ in range(params["count"]):
@@ -52,7 +52,16 @@ class World(object):
             agent.set_state({"position": params["spawn_center"] + spread_vector})
             self.add_agent(agent)
 
-    def tick(self, dt):
+    def agents_in_range(self, point, radius=-1):
+        if radius < 0:
+            for agent in self.agents:
+                yield agent
+        else:
+            for agent in self.agents:
+                if (agent.state["position"] - point).r <= radius:
+                    yield agent
+
+    def do_update(self, dt):
 
         if self.do_reset:
             self.reset()
@@ -65,22 +74,17 @@ class World(object):
                 if (agent.state["position"] - click_pos).r <= 10:
                     self.select_agent(agent)
 
-        if not self.run:
-            return
+        if self.run:
+            for agent in self.agents:
+                agent.do_update(dt)
 
+    def do_move(self, dt):
+        if self.run:
+            for agent in self.agents:
+                agent.do_move(dt)
+
+    def do_draw(self, dt):
         for agent in self.agents:
-            agent.reset_force()
+            agent.do_draw(dt)
 
-            # Calculate sociality forces
-
-            for agent_b in self.agents:
-                if agent_b is agent:
-                    continue
-                agent_b_pos = agent_b.state["position"]
-                if -self.dimensions.x/2 < agent_b_pos.x < self.dimensions.x/2 and\
-                   -self.dimensions.y/2 < agent_b_pos.y < self.dimensions.y/2:
-                    delta = agent.state["position"] - agent_b_pos
-                    agent.add_force(Vector2D(r=250/delta.r, theta=delta.theta) * agent.traits["sociality"])
-
-        for agent in self.agents:
-            agent.apply_forces(dt)
+        self.window.update()

@@ -1,13 +1,14 @@
 # agent.py
 from utilities import *
-from random import *
 from graphics import *
+import random
 
 last_agent_id = 0
 
 class Agent(object):
 
     rect = None
+    world = None
 
     @staticmethod
     def reset_id():
@@ -20,23 +21,23 @@ class Agent(object):
         last_agent_id += 1
         self.state = {
             "position": Vector2D(0, 0),
-            "speed": Vector2D(0, 0)
+            "velocity": Vector2D(0, 0)
         }
         self.traits = {
             "sociality": 0,
             "max_speed": 10,
-            "mass": 1
+            "mass": 1,
+            "sight": 200
         }
-        self.total_force = Vector2D(0, 0)
 
     def randomize_traits(self):
         # Sociality is a measure, from -1 to 1, of how much the
         # agent likes to be near other agents.
-        self.traits["sociality"] = (random()*2)-1
+        self.traits["sociality"] = random.uniform(-1, 1)
 
-        # Max_speed is a measure, from 0 to 10, of how fast the
+        # Max_speed is a measure, from 5 to 10, of how fast the
         # agent can to move around.
-        self.traits["max_speed"] = random() * 10
+        self.traits["max_speed"] = random.uniform(5, 10)
 
     def set_traits(self, traits):
         self.traits.update(traits)
@@ -44,31 +45,39 @@ class Agent(object):
     def set_state(self, state):
         self.state.update(state)
 
-    def reset_force(self):
-        self.total_force = Vector2D(0, 0)
+    def do_update(self, dt):
+        velocity = Vector2D()
+        for agent in self.world.agents_in_range(self.state["position"], self.traits["sight"]):
+            if agent is self:
+                continue
+            delta = agent.state["position"] - self.state["position"]
+            if delta.r != 0:
+                velocity += Vector2D(r=(250*self.traits["sociality"])/delta.r, theta=delta.theta)
 
-    def add_force(self, force):
-        self.total_force += force
+        # Constrain velocity magnitude to "max_speed"
+        velocity = Vector2D(r=min(velocity.r, self.traits["max_speed"]), theta=velocity.theta)
+        self.state["velocity"] = velocity
 
-    def apply_forces(self, dt):
-        accel = self.total_force * self.traits["mass"]
-        desired_speed = (accel*dt) + self.state["speed"]
-        self.state["speed"] = Vector2D(r=min(desired_speed.r, self.traits["max_speed"]), theta=desired_speed.theta)
-        delta_pos = self.state["speed"] * dt
+    def do_move(self, dt):
+        delta_pos = self.state["velocity"] * dt
         self.state["position"] += delta_pos
+
+    def do_draw(self, dt):
+        delta_pos = self.state["position"] - self.rect.getCenter()
         self.rect.move(delta_pos.x, delta_pos.y)
 
-    def draw(self, window):
-        pos = self.state["position"]
-        self.rect = Rectangle(Point(pos.x-5, pos.y-5), Point(pos.x+5, pos.y+5))
-        green = (self.traits["sociality"]-1) * -127
-        red = self.traits["max_speed"] * 255/10
-        self.rect.setFill(color_rgb(red, green, 0))
-        self.set_highlight()
-        self.rect.draw(window)
-
-    def undraw(self):
-        self.rect.undraw()
+    def set_world(self, world):
+        if self.world is not None:
+            self.rect.undraw()
+        self.world = world
+        if self.world is not None:
+            pos = self.state["position"]
+            self.rect = Rectangle(Point(pos.x-5, pos.y-5), Point(pos.x+5, pos.y+5))
+            green = (self.traits["sociality"]-1) * -127
+            red = self.traits["max_speed"] * 255/10
+            self.rect.setFill(color_rgb(red, green, 0))
+            self.set_highlight()
+            self.rect.draw(world.window)
 
     def set_highlight(self, intensity=0):
         self.rect.setOutline(color_rgb(intensity, intensity, 0))

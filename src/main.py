@@ -4,7 +4,15 @@ from controller import Controller
 import time
 
 STARTING_POPULATION = 50
-CYCLES_PER_SECOND = 60
+
+# Simulation Timing:
+UPDATES_PER_SECOND = 30  # Count of logic updates to process per second
+
+MOVES_PER_SECOND = 30  # Count of movement updates to process per second
+# (Should be at least equal to UPDATES_PER_SECOND, but no greater than MOVES_PER_SECOND)
+
+FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
+
 WORLD_DIMENSIONS = Vector2D(500, 500)
 
 def main():
@@ -13,12 +21,32 @@ def main():
     world.set_population_gen({"count": STARTING_POPULATION})
     controller = Controller(world)
     controller.start()
-    last_time = time.time()
+    last_update = 0
+    update_period = 1/UPDATES_PER_SECOND
+    last_move = 0
+    move_period = 1/MOVES_PER_SECOND
+    last_draw = 0
+    draw_period = 1/FRAMES_PER_SECOND
     while True:
-        time.sleep(1/CYCLES_PER_SECOND)
         current_time = time.time()
-        world.tick(current_time - last_time)
-        last_time = current_time
+        update_delta = current_time - last_update
+        move_delta = current_time - last_move
+        draw_delta = current_time - last_draw
+
+        if update_delta > update_period:
+            world.do_update(move_period)
+            last_update = current_time
+
+        if move_delta > move_period:
+            world.do_move(move_delta)
+            last_move = current_time
+
+        if draw_delta > draw_period:
+            world.do_draw(draw_delta)
+            last_draw = current_time
+
+        time.sleep(.01)
+
     controller.join()
 
 if __name__ == "__main__":

@@ -50,7 +50,8 @@ class Controller(threading.Thread):
         self.agent_state.configure(text="State: \n" + "\n".join("{}: {}".format(key, agent.state[key]) for key in agent.state))
 
     def tick(self):
-        self.display_agent_stats(self.world.selected_agent)
+        if self.world.selected_agent is not None:
+            self.display_agent_stats(self.world.selected_agent)
         self.root.after(100, self.tick)
 
     def toggle_sim(self):
