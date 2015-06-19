@@ -35,7 +35,7 @@ class Controller(threading.Thread):
         self.control_label = ttk.Label(self.control_frame, text="World Controls", width=width)
         self.control_label.grid(column=0, row=0)
 
-        self.run_button = ttk.Button(self.control_frame, text="Start", command=self.toggle_sim)
+        self.run_button = ttk.Button(self.control_frame, text="Stop" if self.world.run else "Start", command=self.toggle_sim)
         self.run_button.grid(column=0, row=1)
 
         self.reset_button = ttk.Button(self.control_frame, text="Reset", command=self.reset_sim)

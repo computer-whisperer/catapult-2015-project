@@ -14,18 +14,23 @@ MOVES_PER_SECOND = 30  # Count of movement updates to process per second
 FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
 
 WORLD_DIMENSIONS = Vector2D(500, 500)
+USE_CONTROLLER = True
+AUTOSTART = True
 
 def main():
 
     world = World(WORLD_DIMENSIONS)
     world.set_population_gen({"count": STARTING_POPULATION})
-    controller = Controller(world)
-    controller.start()
-    last_update = 0
+    world.run = AUTOSTART
+    if USE_CONTROLLER:
+        controller = Controller(world)
+        controller.start()
+    current_time = time.time()
+    last_update = current_time
     update_period = 1/UPDATES_PER_SECOND
-    last_move = 0
+    last_move = current_time
     move_period = 1/MOVES_PER_SECOND
-    last_draw = 0
+    last_draw = current_time
     draw_period = 1/FRAMES_PER_SECOND
     while True:
         current_time = time.time()
@@ -46,8 +51,8 @@ def main():
             last_draw = current_time
 
         time.sleep(.01)
-
-    controller.join()
+    if USE_CONTROLLER:
+        controller.join()
 
 if __name__ == "__main__":
     main()
