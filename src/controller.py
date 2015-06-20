@@ -46,8 +46,7 @@ class Controller(threading.Thread):
 
     def display_agent_stats(self, agent):
         self.agent_title.configure(text="Agent {}".format(agent.id))
-        self.agent_traits.configure(text="Traits: \n" + "\n".join("{}: {}".format(key, agent.traits[key]) for key in agent.traits))
-        self.agent_state.configure(text="State: \n" + "\n".join("{}: {}".format(key, agent.state[key]) for key in agent.state))
+        self.agent_traits.configure(text="Traits: \n" + "\n".join(trait.get_info() for trait in agent.traits))
 
     def tick(self):
         if self.world.selected_agent is not None:

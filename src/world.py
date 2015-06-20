@@ -1,6 +1,7 @@
 from graphics import *
 from utilities import *
 from agent import Agent
+from traits import *
 import random
 
 class World(object):
@@ -21,8 +22,14 @@ class World(object):
             "spawn_center": Vector2D(),
             "max_spread": 250,
             "min_spread": 50,
-            "agent_class": Agent
+            "agent_class": Agent,
+            "traits": [
+                MaxSpeed,
+                SocialEffect,
+                Madness]
         }
+
+
 
     def set_population_gen(self, params):
         self.population_gen_params.update(params)
@@ -46,10 +53,11 @@ class World(object):
         params["agent_class"].reset_id()
         for _ in range(params["count"]):
             agent = params["agent_class"]()
+            agent.add_traits([trait(agent) for trait in params["traits"]])
             agent.randomize_traits()
             spread_vector = Vector2D(r=random.uniform(params["min_spread"], params["max_spread"]),
                                      theta=random.random() * 360)
-            agent.set_state({"position": params["spawn_center"] + spread_vector})
+            agent.position = params["spawn_center"] + spread_vector
             self.add_agent(agent)
 
     def agents_in_range(self, point, radius=-1):
@@ -71,7 +79,7 @@ class World(object):
 
         if click_pos is not None:
             for agent in self.agents:
-                if (agent.state["position"] - click_pos).r <= 10:
+                if (agent.position - click_pos).r <= 10:
                     self.select_agent(agent)
 
         if self.run:
