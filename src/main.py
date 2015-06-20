@@ -3,8 +3,6 @@ from world import World
 from controller import Controller
 import time
 
-STARTING_POPULATION = 50
-
 # Simulation Timing:
 UPDATES_PER_SECOND = 30  # Count of logic updates to process per second
 
@@ -14,13 +12,12 @@ MOVES_PER_SECOND = 30  # Count of movement updates to process per second
 FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
 
 WORLD_DIMENSIONS = Vector2D(500, 500)
-USE_CONTROLLER = False
+USE_CONTROLLER = True
 AUTOSTART = True
 
 def main():
 
     world = World(WORLD_DIMENSIONS)
-    world.set_population_gen({"count": STARTING_POPULATION})
     world.run = AUTOSTART
     if USE_CONTROLLER:
         controller = Controller(world)

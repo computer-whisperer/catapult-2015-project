@@ -1,8 +1,11 @@
-from graphics import *
-from utilities import *
-from agent import Agent
-from traits import *
 import random
+
+from graphics import *
+
+from utilities import *
+from agents import *
+from traits import *
+
 
 class World(object):
 
@@ -18,21 +21,23 @@ class World(object):
         self.dimensions = dimensions
 
         self.population_gen_params = {
-            "count": 50,
-            "spawn_center": Vector2D(),
-            "max_spread": 250,
-            "min_spread": 50,
-            "agent_class": Agent,
-            "traits": [
-                MaxSpeed,
-                SocialEffect,
-                Madness]
+            "Carp": {
+                "class": Carp,
+                "count": 25,
+                "spawn_center": Vector2D(),
+                "max_spread": 250,
+                "min_spread": 50,
+                "extra_traits": [MaxSpeed, SocialEffect]
+            },
+            "Algae": {
+                "class": Agent,
+                "count": 25,
+                "spawn_center": Vector2D(),
+                "max_spread": 250,
+                "min_spread": 50,
+                "extra_traits": [MaxSpeed, SocialEffect]
+            }
         }
-
-
-
-    def set_population_gen(self, params):
-        self.population_gen_params.update(params)
 
     def add_agent(self, agent):
         agent.set_world(self)
@@ -45,20 +50,20 @@ class World(object):
         self.selected_agent = agent
 
     def reset(self):
-        params = self.population_gen_params
-
         for agent in self.agents:
             agent.set_world(None)
         self.agents = []
-        params["agent_class"].reset_id()
-        for _ in range(params["count"]):
-            agent = params["agent_class"]()
-            agent.add_traits([trait(agent) for trait in params["traits"]])
-            agent.randomize_traits()
-            spread_vector = Vector2D(r=random.uniform(params["min_spread"], params["max_spread"]),
-                                     theta=random.random() * 360)
-            agent.position = params["spawn_center"] + spread_vector
-            self.add_agent(agent)
+        for agent_type in self.population_gen_params:
+            gen_params = self.population_gen_params[agent_type]
+            gen_params["class"].reset_id(agent_type)
+            for _ in range(gen_params["count"]):
+                agent = gen_params["class"]()
+                agent.add_traits(gen_params["extra_traits"])
+                agent.randomize_traits()
+                spread_vector = Vector2D(r=random.uniform(gen_params["min_spread"], gen_params["max_spread"]),
+                                         theta=random.random() * 360)
+                agent.position = gen_params["spawn_center"] + spread_vector
+                self.add_agent(agent)
 
     def agents_in_range(self, point, radius=-1):
         if radius < 0:
@@ -90,6 +95,16 @@ class World(object):
         if self.run:
             for agent in self.agents:
                 agent.do_move(dt)
+
+                # Handle world boundaries
+                if -self.dimensions.x/2 > agent.position.x:
+                    agent.position.x = -self.dimensions.x/2
+                if self.dimensions.x/2 < agent.position.x:
+                    agent.position.x = self.dimensions.x/2
+                if -self.dimensions.y/2 > agent.position.y:
+                    agent.position.y = -self.dimensions.y/2
+                if self.dimensions.y/2 < agent.position.y:
+                    agent.position.y = self.dimensions.y/2
 
     def do_draw(self, dt):
         for agent in self.agents:

@@ -3,8 +3,10 @@ class Trait(object):
 
     value = 0
 
-    def __init__(self, agent):
+    def __init__(self, agent, do_randomize=True):
         self.agent = agent
+        if do_randomize:
+            self.randomize()
 
     def randomize(self):
         pass

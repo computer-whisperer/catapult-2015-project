@@ -45,7 +45,7 @@ class Controller(threading.Thread):
         self.root.mainloop()
 
     def display_agent_stats(self, agent):
-        self.agent_title.configure(text="Agent {}".format(agent.id))
+        self.agent_title.configure(text="{} {}".format(agent.agent_name, agent.id))
         self.agent_traits.configure(text="Traits: \n" + "\n".join(trait.get_info() for trait in agent.traits))
 
     def tick(self):
