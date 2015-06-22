@@ -44,12 +44,6 @@ class Agent(object):
         for trait in self.traits:
             trait.randomize()
 
-    def getX(self):
-        return position.x
-
-    def getY(self):
-        return position.y
-
     def do_update(self, dt):
         for trait in self.traits:
             trait.do_update(dt)

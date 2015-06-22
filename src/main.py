@@ -12,7 +12,7 @@ MOVES_PER_SECOND = 30  # Count of movement updates to process per second
 FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
 
 WORLD_DIMENSIONS = Vector2D(500, 500)
-USE_CONTROLLER = True
+USE_CONTROLLER = False
 AUTOSTART = True
 
 def main():
