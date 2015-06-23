@@ -12,8 +12,9 @@ class World(object):
     run = False
     do_reset = True
 
-    def __init__(self, dimensions):
+    def __init__(self, dimensions, rate):
         self.agents = []
+        self.rate = rate
         self.selected_agent = None
         self.window = GraphWin(title="My World", width=dimensions.x, height=dimensions.y, autoflush=False)
         self.window.setCoords(-dimensions.x/2, dimensions.y/2, dimensions.x/2, -dimensions.y/2)
@@ -21,28 +22,31 @@ class World(object):
         self.dimensions = dimensions
 
         self.population_gen_params = {
+            "Agent": {
+                "class": Agent,
+                "count": 0,
+                "spawn_center": Vector2D(),
+                "max_spread": 250,
+                "min_spread": 50,
+                "extra_traits": []
+            },
+            "Plankton": {
+                "class": Plankton,
+                "count": 30,
+                "spawn_center": Vector2D(),
+                "max_spread": 250,
+                "min_spread": 50,
+                "extra_traits": []
+            },
             "Carp": {
                 "class": Carp,
-                "count": 25,
+                "count": 10,
                 "spawn_center": Vector2D(),
                 "max_spread": 250,
                 "min_spread": 50,
-                "extra_traits": [MaxSpeed, SocialEffect]
-            },
-            "Algae": {
-                "class": Agent,
-                "count": 25,
-                "spawn_center": Vector2D(),
-                "max_spread": 250,
-                "min_spread": 50,
-                "extra_traits": [MaxSpeed, SocialEffect]
+                "extra_traits": []
             }
         }
-
-    def add_agent(self, agent):
-        agent.set_world(self)
-        self.agents.append(agent)
-        self.selected_agent = agent
 
     def select_agent(self, agent):
         self.selected_agent.set_highlight()
@@ -51,19 +55,24 @@ class World(object):
 
     def reset(self):
         for agent in self.agents:
-            agent.set_world(None)
+            agent.on_death()
         self.agents = []
         for agent_type in self.population_gen_params:
             gen_params = self.population_gen_params[agent_type]
-            gen_params["class"].reset_id(agent_type)
+            gen_params["class"].reset_id()
             for _ in range(gen_params["count"]):
-                agent = gen_params["class"]()
-                agent.add_traits(gen_params["extra_traits"])
-                agent.randomize_traits()
                 spread_vector = Vector2D(r=random.uniform(gen_params["min_spread"], gen_params["max_spread"]),
                                          theta=random.random() * 360)
-                agent.position = gen_params["spawn_center"] + spread_vector
-                self.add_agent(agent)
+                self.spawn_agent(agent_type, gen_params["spawn_center"] + spread_vector)
+
+    def spawn_agent(self, type, pos=Vector2D()):
+        gen_params = self.population_gen_params[type]
+        agent = gen_params["class"](type)
+        agent.add_traits(gen_params["extra_traits"])
+        agent.position = pos
+        agent.set_world(self)
+        self.selected_agent = agent
+        self.agents.append(agent)
 
     def agents_in_range(self, point, radius=-1):
         if radius < 0:
@@ -74,7 +83,8 @@ class World(object):
                 if (agent.state["position"] - point).r <= radius:
                     yield agent
 
-    def do_update(self, dt):
+    def do_update(self, real_dt):
+
 
         if self.do_reset:
             self.reset()
@@ -88,13 +98,23 @@ class World(object):
                     self.select_agent(agent)
 
         if self.run:
+            # Convert real_dt second count to sim_dt hour count
+            sim_dt = real_dt * self.rate
+            torem = []
             for agent in self.agents:
-                agent.do_update(dt)
+                agent.do_update(sim_dt)
+                if not agent.alive:
+                    torem.append(agent)
+            for agent in torem:
+                self.agents.remove(agent)
 
-    def do_move(self, dt):
+    def do_move(self, real_dt):
+
         if self.run:
+            # Convert real_dt second count to sim_dt hour count
+            sim_dt = real_dt * self.rate
             for agent in self.agents:
-                agent.do_move(dt)
+                agent.do_move(sim_dt)
 
                 # Handle world boundaries
                 if -self.dimensions.x/2 > agent.position.x:
@@ -107,6 +127,7 @@ class World(object):
                     agent.position.y = self.dimensions.y/2
 
     def do_draw(self, dt):
+
         for agent in self.agents:
             agent.do_draw(dt)
 

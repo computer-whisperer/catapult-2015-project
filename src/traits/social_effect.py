@@ -6,8 +6,10 @@ class SocialEffect(Trait):
 
     value = 0
 
-    def randomize(self):
-        self.value = random.uniform(-10, 10)
+    def init_agent_data(self):
+        return {
+            "social_effect": random.uniform(-10, 10),
+        }
 
     def do_update(self, dt):
         total_effect = Vector2D()
@@ -17,4 +19,4 @@ class SocialEffect(Trait):
             delta = target_agent.position - self.agent.position
             if delta.r != 0:
                 total_effect += Vector2D(r=250/delta.r, theta=delta.theta)
-        self.agent.movement += Vector2D(r=self.value, theta=total_effect.theta)
+        self.agent.movement += Vector2D(r=self.agent.agent_data["social_effect"], theta=total_effect.theta)

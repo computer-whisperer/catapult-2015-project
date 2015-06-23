@@ -32,10 +32,11 @@ class Madness(Trait):
     last_x = None
     last_y = None
 
-    def randomize(self):
+    def init_agent_data(self):
         self.value = random.uniform(0, 10)
         self.speed = self.value * 10
         self.heading = random.uniform(0, 360)
+        return {}
 
     def do_update(self, dt):
         if self.length < 0:

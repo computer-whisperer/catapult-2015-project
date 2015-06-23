@@ -3,19 +3,14 @@ class Trait(object):
 
     value = 0
 
-    def __init__(self, agent, do_randomize=True):
+    def __init__(self, agent):
         self.agent = agent
-        if do_randomize:
-            self.randomize()
 
-    def randomize(self):
-        pass
+    def init_agent_data(self):
+        return {}
 
     def do_update(self, dt):
         pass
 
     def do_move(self, dt):
         pass
-
-    def get_info(self):
-        return "{}: {}".format(self.__class__.__name__, self.value)

@@ -4,17 +4,31 @@ import traits
 
 class Carp(Agent):
 
+    HATCH_TIME = 7*24
+
     default_traits = [
         traits.MaxSpeed,
         traits.SocialEffect,
-        traits.Madness
+        traits.Madness,
+        traits.Reproduction,
+        traits.Food
     ]
 
-    def do_draw(self, dt):
-        if self.sprite is None:
-            self.sprite = Circle(self.position, 5)
-            self.sprite.setFill(color_rgb(255, 0, 0))
-            self.sprite.draw(self.world.window)
-            self.set_highlight()
-        delta_pos = self.position - self.sprite.getCenter()
-        self.sprite.move(delta_pos.x, delta_pos.y)
+    def init_agent_data(self):
+        return {
+            "calories": 30,
+            "max_bite": 15,
+            "min_bite": 5,
+            "max_hunger": 100,
+            "hunger_rate": 1,
+            "hunger": 0,
+            "repro_max_cooldown": 100,
+            "age": 0,
+        }
+
+    def do_update(self, dt):
+        super().do_update(dt)
+
+    def init_sprite(self):
+        self.sprite = Circle(self.position, 5)
+        self.sprite.setFill(color_rgb(255, 0, 0))

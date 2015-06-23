@@ -5,46 +5,56 @@ from traits import *
 
 class Agent(object):
     last_agent_id = 0
-    agent_name = ""
+    agent_type = ""
 
     sprite = None
     world = None
+    alive = True
 
     position = Vector2D(0, 0)
+    last_position = position
     movement = Vector2D(0, 0)
+    last_movement = movement
 
     default_traits = [
         MaxSpeed,
-        SocialEffect
+        #SocialEffect,
+        Madness
     ]
 
     @classmethod
-    def reset_id(cls, agent_name=None):
-        if agent_name is None:
-            agent_name = cls.__name__
-        cls.agent_name = agent_name
+    def reset_id(cls):
         cls.last_agent_id = 0
 
-    def __init__(self):
+    def __init__(self, agent_type=None):
+        if agent_type is None:
+            agent_type = self.__name__
+        self.agent_type = agent_type
         self.id = self.last_agent_id
         self.__class__.last_agent_id += 1
         self.traits = []
-        for trait in self.default_traits:
-            self.traits.append(trait(self))
+        self.agent_data = self.init_agent_data()
+        self.add_traits(self.default_traits)
 
     def add_traits(self, traits):
         for trait in traits:
             for existing_trait in self.traits:
-                if trait is type(existing_trait):
+                if isinstance(existing_trait, trait):
                     break
             else:
-                self.traits.append(trait(self))
+                new_trait = trait(self)
+                trait_stats = new_trait.init_agent_data()
+                trait_stats.update(self.agent_data)
+                self.agent_data = trait_stats
+                self.traits.append(new_trait)
 
-    def randomize_traits(self):
-        for trait in self.traits:
-            trait.randomize()
+    def init_agent_data(self):
+        return {}
 
     def do_update(self, dt):
+        self.last_movement = self.movement
+        self.last_position = self.position
+        self.movement = Vector2D()
         for trait in self.traits:
             trait.do_update(dt)
 
@@ -57,18 +67,25 @@ class Agent(object):
     def do_draw(self, dt):
         pos = self.position
         if self.sprite is None:
-            self.sprite = Rectangle(Point(pos.x-5, pos.y-5), Point(pos.x+5, pos.y+5))
-            self.sprite.setFill(color_rgb(0, 255, 0))
+            self.init_sprite()
             self.sprite.draw(self.world.window)
             self.set_highlight()
         delta_pos = pos - self.sprite.getCenter()
         self.sprite.move(delta_pos.x, delta_pos.y)
 
+    def init_sprite(self):
+        self.sprite = Rectangle(Point(self.position.x-5, self.position.y-5),
+                                Point(self.position.x+5, self.position.y+5))
+        self.sprite.setFill(color_rgb(0, 255, 0))
+
     def set_world(self, world):
-        if self.sprite is not None:
-            self.sprite.undraw()
-            self.sprite = None
         self.world = world
 
     def set_highlight(self, intensity=0):
         self.sprite.setOutline(color_rgb(intensity, intensity, 0))
+
+    def on_death(self):
+        if self.alive:
+            print("{} {} died!".format(self.agent_type, self.id))
+            self.sprite.undraw()
+            self.alive = False
