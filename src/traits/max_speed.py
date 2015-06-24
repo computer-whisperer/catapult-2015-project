@@ -9,6 +9,6 @@ class MaxSpeed(Trait):
             "max_speed": random.uniform(0, 10),
         }
 
-    def do_move(self, dt):
+    def do_move(self, dt_hours):
         current_vel = self.agent.movement
         self.agent.movement = Vector2D(r=min(current_vel.r, self.agent.agent_data["max_speed"]), theta=current_vel.theta)

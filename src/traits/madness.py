@@ -38,16 +38,16 @@ class Madness(Trait):
         self.heading = random.uniform(0, 360)
         return {}
 
-    def do_update(self, dt):
+    def do_update(self, dt_hours):
         if self.length < 0:
             self.length = 0
         if random.random() * 10 > 2**self.value / 100 and self.length == 0:
-            self.heading += self.speed * dt
+            self.heading += self.speed * dt_hours
             self.agent.movement += Vector2D(r=self.value, theta=self.heading)
             self.last_x = self.agent.position.x
             self.last_y = self.agent.position.y
         elif self.length > 0:
-            self.length += -1 * dt
+            self.length += -1 * dt_hours
         else:
             self.update_spasm()
 

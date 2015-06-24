@@ -11,26 +11,32 @@ MOVES_PER_SECOND = 30  # Count of movement updates to process per second
 
 FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
 
-SIMULATION_RATE = 4  # Ratio of in-sim hours to real-life seconds
+SIMULATION_RATE = 8  # Ratio of in-sim hours to real-life seconds
 
 WORLD_DIMENSIONS = Vector2D(500, 500)
-USE_CONTROLLER = False
+USE_CONTROLLER = True
 AUTOSTART = True
 
 def main():
 
     world = World(WORLD_DIMENSIONS, SIMULATION_RATE)
     world.run = AUTOSTART
+
     if USE_CONTROLLER:
         controller = Controller(world)
         controller.start()
+
     current_time = time.time()
+
     last_update = current_time
     update_period = 1/UPDATES_PER_SECOND
+
     last_move = current_time
     move_period = 1/MOVES_PER_SECOND
+
     last_draw = current_time
     draw_period = 1/FRAMES_PER_SECOND
+
     while True:
         current_time = time.time()
         update_delta = current_time - last_update
@@ -50,6 +56,7 @@ def main():
             last_draw = current_time
 
         time.sleep(.01)
+
     if USE_CONTROLLER:
         controller.join()
 

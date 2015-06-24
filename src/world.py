@@ -1,11 +1,12 @@
 import random
-
+import math
 from graphics import *
 
 from utilities import *
 from agents import *
 from traits import *
 
+GRID_SIZE = 150
 
 class World(object):
 
@@ -34,27 +35,28 @@ class World(object):
                 "class": Plankton,
                 "count": 30,
                 "spawn_center": Vector2D(),
-                "max_spread": 250,
-                "min_spread": 50,
-                "extra_traits": []
+                "max_spread": 100,
+                "min_spread": 0,
+                "extra_traits": [Madness]
             },
             "Carp": {
                 "class": Carp,
-                "count": 10,
+                "count": 4,
                 "spawn_center": Vector2D(),
                 "max_spread": 250,
-                "min_spread": 50,
+                "min_spread": 100,
                 "extra_traits": []
             },
             "Fish": {
                 "class": Fish,
-                "count": 10,
+                "count": 0,
                 "spawn_center": Vector2D(),
                 "max_spread": 250,
-                "min_spread": 50,
+                "min_spread": 100,
                 "extra_traits": []
             }
         }
+
 
     def select_agent(self, agent):
         self.selected_agent.set_highlight()
@@ -82,18 +84,18 @@ class World(object):
         self.selected_agent = agent
         self.agents.append(agent)
 
+        print("{} {} spawned!".format(type, agent.id))
+
     def agents_in_range(self, point, radius=-1):
         if radius < 0:
             for agent in self.agents:
                 yield agent
         else:
             for agent in self.agents:
-                if (agent.state["position"] - point).r <= radius:
+                if (agent.position - point).r <= radius:
                     yield agent
 
     def do_update(self, real_dt):
-
-
         if self.do_reset:
             self.reset()
             self.do_reset = False
@@ -134,9 +136,9 @@ class World(object):
                 if self.dimensions.y/2 < agent.position.y:
                     agent.position.y = self.dimensions.y/2
 
-    def do_draw(self, dt):
+    def do_draw(self, real_dt):
 
         for agent in self.agents:
-            agent.do_draw(dt)
+            agent.do_draw(real_dt)
 
         self.window.update()

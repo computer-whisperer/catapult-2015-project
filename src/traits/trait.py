@@ -9,8 +9,8 @@ class Trait(object):
     def init_agent_data(self):
         return {}
 
-    def do_update(self, dt):
+    def do_update(self, dt_hours):
         pass
 
-    def do_move(self, dt):
+    def do_move(self, dt_hours):
         pass

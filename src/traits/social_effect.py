@@ -9,9 +9,10 @@ class SocialEffect(Trait):
     def init_agent_data(self):
         return {
             "social_effect": random.uniform(-10, 10),
+            "personal_space": 10
         }
 
-    def do_update(self, dt):
+    def do_update(self, dt_hours):
         total_effect = Vector2D()
         for target_agent in self.agent.world.agents_in_range(self.agent.position, -1):
             if target_agent is self.agent or type(target_agent) != type(self.agent):

@@ -51,26 +51,29 @@ class Agent(object):
     def init_agent_data(self):
         return {}
 
-    def do_update(self, dt):
+    def do_update(self, dt_hours):
         self.last_movement = self.movement
         self.last_position = self.position
         self.movement = Vector2D()
         for trait in self.traits:
-            trait.do_update(dt)
+            trait.do_update(dt_hours)
 
-    def do_move(self, dt):
+    def do_move(self, dt_hours):
         for trait in self.traits:
-            trait.do_move(dt)
-        delta_pos = self.movement * dt
+            trait.do_move(dt_hours)
+        delta_pos = self.movement * dt_hours
         self.position += delta_pos
 
-    def do_draw(self, dt):
+    def do_draw(self, dt_hours):
         pos = self.position
         if self.sprite is None:
             self.init_sprite()
             self.sprite.draw(self.world.window)
             self.set_highlight()
-        delta_pos = pos - self.sprite.getCenter()
+        if hasattr(self.sprite, "getCenter"):
+            delta_pos = pos - self.sprite.getCenter()
+        else:
+            delta_pos = pos - self.sprite.getAnchor()
         self.sprite.move(delta_pos.x, delta_pos.y)
 
     def init_sprite(self):
@@ -87,5 +90,6 @@ class Agent(object):
     def on_death(self):
         if self.alive:
             print("{} {} died!".format(self.agent_type, self.id))
-            self.sprite.undraw()
+            if self.sprite is not None:
+                self.sprite.undraw()
             self.alive = False
