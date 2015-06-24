@@ -18,7 +18,7 @@ class Carp(Agent):
         return {
             "max_bite": 30,
             "min_bite": 5,
-            "max_hunger": 500,
+            "max_hunger": 100,
             "hunger": 0,
             "repro_max_cooldown": 20,
             "repro_cooldown": 6,
@@ -41,7 +41,7 @@ class Carp(Agent):
             self.cycle_state = 1
             self.agent_data.update({
                 "calories": 75,
-                "hunger_rate": 75,
+                "hunger_rate": 25,
                 "max_speed": 5,
             })
         elif self.agent_data["age_days"] < 365:
@@ -49,7 +49,7 @@ class Carp(Agent):
             self.cycle_state = 2
             self.agent_data.update({
                 "calories": 100,
-                "hunger_rate": 100,
+                "hunger_rate": 50,
                 "max_speed": 7,
                 "repro_max_cooldown": 1
             })
@@ -58,7 +58,7 @@ class Carp(Agent):
             self.cycle_state = 3
             self.agent_data.update({
                 "calories": 80,
-                "hunger_rate": 150,
+                "hunger_rate": 40,
                 "max_speed": 5,
                 "repro_max_cooldown": 2
             })

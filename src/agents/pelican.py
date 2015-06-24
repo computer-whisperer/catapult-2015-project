@@ -2,7 +2,7 @@ from agents import Agent
 from graphics import *
 import traits
 
-class Carp(Agent):
+class Pelican(Agent):
 
     cycle_state = 0
 
@@ -18,11 +18,11 @@ class Carp(Agent):
         return {
             "max_bite": 80,
             "min_bite": 50,
-            "max_hunger": 500,
-            "hunger_rate": 0,
+            "max_hunger": 200,
+            "hunger_rate": 25,
             "hunger": 0,
-            "sight": 200,
-            "calories": 50,
+            "sight": 1000,
+            "calories": 300,
             "max_speed": 7
         }
 

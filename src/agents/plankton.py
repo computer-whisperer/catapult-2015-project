@@ -15,7 +15,7 @@ class Plankton(Agent):
         return {
             "calories": 25,
             "max_bite": 0,
-            "max_hunger": 100,
+            "max_hunger": 25,
             "hunger": 0,
             "hunger_rate": 0,
             "max_speed": .5,

@@ -46,7 +46,7 @@ class World(object):
             },
             "Carp": {
                 "class": Carp,
-                "count": 10,
+                "count": 20,
                 "spawn_center": Vector2D(0, -150),
                 "max_spread": 100,
                 "min_spread": 0,
@@ -58,6 +58,14 @@ class World(object):
                 "spawn_center": Vector2D(),
                 "max_spread": 250,
                 "min_spread": 100,
+                "extra_traits": []
+            },
+            "Pelican": {
+                "class": Pelican,
+                "count": 1,
+                "spawn_center": Vector2D(),
+                "max_spread": 250,
+                "min_spread": 0,
                 "extra_traits": []
             }
         }
