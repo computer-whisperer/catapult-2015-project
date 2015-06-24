@@ -1,1 +1,1 @@
-__author__ = 'christian and taylor and liwei'
+__author__ = 'christian'
