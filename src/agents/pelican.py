@@ -2,7 +2,9 @@ from agents import Agent
 from graphics import *
 import traits
 
-class Fish(Agent):
+class Carp(Agent):
+
+    cycle_state = 0
 
     default_traits = [
         traits.MaxSpeed,
@@ -14,28 +16,28 @@ class Fish(Agent):
 
     def init_agent_data(self):
         return {
-            "calories": 100,
-            "max_bite": 30,
-            "min_bite": 5,
+            "max_bite": 80,
+            "min_bite": 50,
             "max_hunger": 500,
-            "hunger_rate": 75,
+            "hunger_rate": 0,
             "hunger": 0,
-            "repro_max_cooldown": 100,
-            "repro_cooldown": 6,
-            "age_days": 0,
-            "max_speed": 7,
-            "sight": 200
+            "sight": 200,
+            "calories": 50,
+            "max_speed": 7
         }
 
     def init_sprite(self):
         #self.sprite = Rectangle(Point(self.position.x-5, self.position.y-5),
         #    Point(self.position.x+5, self.position.y+5))
-        #self.sprite.setFill(color_rgb(0, 0, 255))
+        #self.sprite.setFill(color_rgb(255, 0, 0))
 
         try:
-            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish.png")
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/pelican.png")
         except:
-            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish.gif")
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/pelican.gif")
+
+
+
 
     def set_highlight(self, intensity=0):
         pass

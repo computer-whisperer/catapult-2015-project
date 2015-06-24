@@ -71,9 +71,12 @@ class Carp(Agent):
         #self.sprite.setFill(color_rgb(255, 0, 0))
 
         try:
-            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.png")
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/carp.png")
         except:
-            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.gif")
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/carp.gif")
+
+
+
 
     def set_highlight(self, intensity=0):
         pass

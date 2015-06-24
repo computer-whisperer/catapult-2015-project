@@ -19,6 +19,11 @@ class World(object):
         self.selected_agent = None
         self.window = GraphWin(title="My World", width=dimensions.x, height=dimensions.y, autoflush=False)
         self.window.setCoords(-dimensions.x/2, dimensions.y/2, dimensions.x/2, -dimensions.y/2)
+        try:
+            self.background_img = Image(Point(0, 0), "resources/backdrop.png")
+        except:
+            self.background_img = Image(Point(0, 0), "resources/backdrop.gif")
+        self.background_img.draw(self.window)
         self.window.setBackground(color_rgb(255, 255, 255))
         self.dimensions = dimensions
 
@@ -34,17 +39,17 @@ class World(object):
             "Plankton": {
                 "class": Plankton,
                 "count": 30,
-                "spawn_center": Vector2D(),
+                "spawn_center": Vector2D(0, 100),
                 "max_spread": 100,
                 "min_spread": 0,
                 "extra_traits": [Madness]
             },
             "Carp": {
                 "class": Carp,
-                "count": 4,
-                "spawn_center": Vector2D(),
-                "max_spread": 250,
-                "min_spread": 100,
+                "count": 10,
+                "spawn_center": Vector2D(0, -150),
+                "max_spread": 100,
+                "min_spread": 0,
                 "extra_traits": []
             },
             "Fish": {

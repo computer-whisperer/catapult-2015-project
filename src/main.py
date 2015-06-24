@@ -13,7 +13,7 @@ FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
 
 SIMULATION_RATE = 8  # Ratio of in-sim hours to real-life seconds
 
-WORLD_DIMENSIONS = Vector2D(500, 500)
+WORLD_DIMENSIONS = Vector2D(1000, 1000)
 USE_CONTROLLER = True
 AUTOSTART = True
 
