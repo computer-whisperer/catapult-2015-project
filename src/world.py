@@ -45,6 +45,14 @@ class World(object):
                 "max_spread": 250,
                 "min_spread": 50,
                 "extra_traits": []
+            },
+            "Fish": {
+                "class": Fish,
+                "count": 10,
+                "spawn_center": Vector2D(),
+                "max_spread": 250,
+                "min_spread": 50,
+                "extra_traits": []
             }
         }
 
