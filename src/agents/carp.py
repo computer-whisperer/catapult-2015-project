@@ -70,7 +70,7 @@ class Carp(Agent):
         #    Point(self.position.x+5, self.position.y+5))
         #self.sprite.setFill(color_rgb(255, 0, 0))
 
-        self.sprite = Image(Point(self.position.x, self.position.y), "../fish-small.png")
+        self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.png")
 
     def set_highlight(self, intensity=0):
         pass
