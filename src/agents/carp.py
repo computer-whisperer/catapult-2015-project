@@ -23,7 +23,7 @@ class Carp(Agent):
             "repro_max_cooldown": 20,
             "repro_cooldown": 6,
             "age_days": 0,
-            "sight": 120
+            "sight": 200
         }
 
     def do_update(self, dt_hours):
@@ -70,7 +70,10 @@ class Carp(Agent):
         #    Point(self.position.x+5, self.position.y+5))
         #self.sprite.setFill(color_rgb(255, 0, 0))
 
-        self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.png")
+        try:
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.png")
+        except:
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.gif")
 
     def set_highlight(self, intensity=0):
         pass
