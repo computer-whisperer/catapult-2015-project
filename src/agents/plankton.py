@@ -1,6 +1,7 @@
 from agents import Agent
 from graphics import *
 import traits
+import random
 
 class Plankton(Agent):
 
@@ -18,14 +19,15 @@ class Plankton(Agent):
             "max_hunger": 25,
             "hunger": 0,
             "hunger_rate": 0,
-            "max_speed": .5,
-            "repro_max_cooldown": 4,
-            "repro_cooldown": 3,
+            "max_speed": 5,
             "asexual": True,
-            "personal_space": 10,
-            "crowding_resistance": 15,
+            "repro_max_cooldown": random.uniform(3, 5),
+            "repro_cooldown": random.random()*4,
+            "repro_radius": 15,
+            "personal_space": 40,
+            "personal_space_tolerance": 10,
             "flee_predator": True,
-            "sight": 50
+            "sight": 10
         }
 
     def init_sprite(self):

@@ -1,8 +1,9 @@
-from agents import Agent
+from .fish import Fish
+from .agent import Agent
 from graphics import *
 import traits
-
-class Carp(Agent):
+import random
+class Carp(Fish):
 
     cycle_state = 0
 
@@ -22,8 +23,11 @@ class Carp(Agent):
             "hunger": 0,
             "repro_max_cooldown": 20,
             "repro_cooldown": 6,
-            "age_days": 0,
-            "sight": 200
+            "repro_radius": 15,
+            "personal_space": 10,
+            "personal_space_tolerance": 15,
+            "age_days": random.random()*4,
+            "sight": 500
         }
 
     def do_update(self, dt_hours):
@@ -41,42 +45,26 @@ class Carp(Agent):
             self.cycle_state = 1
             self.agent_data.update({
                 "calories": 75,
-                "hunger_rate": 25,
-                "max_speed": 5,
+                "hunger_rate": 15,
+                "max_speed": 10,
             })
-        elif self.agent_data["age_days"] < 365:
+        else:
             # Carp is an adult, set stuff appropriately
             self.cycle_state = 2
             self.agent_data.update({
                 "calories": 100,
-                "hunger_rate": 50,
-                "max_speed": 7,
+                "hunger_rate": 40,
+                "max_speed": 20,
                 "repro_max_cooldown": 1
             })
-        else:
-            # Carp is elderly, set stuff appropriately
-            self.cycle_state = 3
-            self.agent_data.update({
-                "calories": 80,
-                "hunger_rate": 40,
-                "max_speed": 5,
-                "repro_max_cooldown": 2
-            })
 
-        super().do_update(dt_hours)
+        Agent.do_update(self, dt_hours)
 
     def init_sprite(self):
-        #self.sprite = Rectangle(Point(self.position.x-5, self.position.y-5),
-        #    Point(self.position.x+5, self.position.y+5))
-        #self.sprite.setFill(color_rgb(255, 0, 0))
+
 
         try:
             self.sprite = Image(Point(self.position.x, self.position.y), "resources/carp.png")
         except:
             self.sprite = Image(Point(self.position.x, self.position.y), "resources/carp.gif")
 
-
-
-
-    def set_highlight(self, intensity=0):
-        pass

@@ -18,8 +18,6 @@ class Agent(object):
 
     default_traits = [
         MaxSpeed,
-        #SocialEffect,
-        Madness
     ]
 
     @classmethod
@@ -69,7 +67,6 @@ class Agent(object):
         if self.sprite is None:
             self.init_sprite()
             self.sprite.draw(self.world.window)
-            self.set_highlight()
         if hasattr(self.sprite, "getCenter"):
             delta_pos = pos - self.sprite.getCenter()
         else:
@@ -83,9 +80,6 @@ class Agent(object):
 
     def set_world(self, world):
         self.world = world
-
-    def set_highlight(self, intensity=0):
-        self.sprite.setOutline(color_rgb(intensity, intensity, 0))
 
     def on_death(self):
         if self.alive:

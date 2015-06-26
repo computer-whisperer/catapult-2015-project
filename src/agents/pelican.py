@@ -23,7 +23,7 @@ class Pelican(Agent):
             "hunger": 0,
             "sight": 1000,
             "calories": 300,
-            "max_speed": 7
+            "max_speed": 20
         }
 
     def init_sprite(self):
@@ -36,8 +36,3 @@ class Pelican(Agent):
         except:
             self.sprite = Image(Point(self.position.x, self.position.y), "resources/pelican.gif")
 
-
-
-
-    def set_highlight(self, intensity=0):
-        pass
