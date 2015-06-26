@@ -64,9 +64,9 @@ class Fish(Agent):
     def init_sprite(self):
 
         try:
-            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.png")
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish.png")
         except:
-            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish-small.gif")
+            self.sprite = Image(Point(self.position.x, self.position.y), "resources/fish.gif")
 
     def do_draw(self, dt_hours):
         pos = self.position
