@@ -11,10 +11,10 @@ FRAMES_PER_SECOND = 30  # Count of graphic updates to process per second
 SIMULATION_RATE = 8  # Ratio of in-sim hours to real-life seconds
 MAX_UPDATE = .75
 
-SCALE = 1
-WORLD_DIMENSIONS = Vector2D(1000, 1000)
+SCALE = 2
+WORLD_DIMENSIONS = Vector2D(2500, 250)
 
-USE_CONTROLLER = False
+USE_CONTROLLER = True
 AUTOSTART = True
 
 def main():

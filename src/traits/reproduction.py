@@ -4,6 +4,8 @@ import random
 
 class Reproduction(Trait):
 
+
+
     def init_agent_data(self):
         return {
             "repro_value": 10,

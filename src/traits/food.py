@@ -15,7 +15,6 @@ class Food(Trait):
             "calories": 0,
             "max_bite": 30,
             "min_bite": 10,
-            "max_hunger": 100,
             "hunger_rate": 10,
             "hunger": 0,
             "flee_predator": True,
@@ -39,7 +38,7 @@ class Food(Trait):
                 # If the target agent is valid food for this agent, move towards it and eat it when close enough.
                 delta = target_agent.position - self.agent.position
                 if delta.r != 0:
-                    total_effect += Vector2D(r=100*target_agent.agent_data["calories"]/delta.r, theta=delta.theta)
+                    total_effect += Vector2D(r=75*target_agent.agent_data["calories"]/delta.r, theta=delta.theta)
                 if (self.agent.position - target_agent.position).r < 10:
                     self.agent.agent_data["hunger"] -= target_agent.agent_data["calories"]
                     target_agent.on_death()
@@ -59,5 +58,5 @@ class Food(Trait):
 
         # Handle hunger depletion and starvation
         self.agent.agent_data["hunger"] += self.agent.agent_data["hunger_rate"] * dt_hours/24
-        if self.agent.agent_data["hunger"] >= self.agent.agent_data["max_hunger"]:
+        if self.agent.agent_data["hunger"] >= self.agent.agent_data["calories"]:
             self.agent.on_death()

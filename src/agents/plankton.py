@@ -14,20 +14,19 @@ class Plankton(Agent):
 
     def init_agent_data(self):
         return {
-            "calories": 25,
+            "calories": 50,
             "max_bite": 0,
-            "max_hunger": 25,
-            "hunger": 0,
+            "min_bite": 0,
             "hunger_rate": 0,
-            "max_speed": 5,
             "asexual": True,
-            "repro_max_cooldown": random.uniform(3, 5),
-            "repro_cooldown": random.random()*4,
+            "repro_max_cooldown": random.uniform(1, 5),
+            "repro_cooldown": random.random()*3,
             "repro_radius": 15,
             "personal_space": 40,
             "personal_space_tolerance": 10,
             "flee_predator": True,
-            "sight": 10
+            "sight": 10,
+            "max_speed": 5,
         }
 
     def init_sprite(self):

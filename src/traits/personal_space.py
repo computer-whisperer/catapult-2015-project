@@ -13,6 +13,7 @@ class PersonalSpace(Trait):
         }
 
     def do_update(self, dt_hours):
+
         total_effect = Vector2D()
         crowd_score = 0
         for target_agent in self.agent.world.agents_in_range(self.agent.position, self.agent.agent_data["personal_space"]*2):

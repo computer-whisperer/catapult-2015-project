@@ -16,13 +16,11 @@ class Pelican(Agent):
 
     def init_agent_data(self):
         return {
-            "max_bite": 80,
-            "min_bite": 50,
-            "max_hunger": 200,
-            "hunger_rate": 25,
-            "hunger": 0,
+            "max_bite": 300,
+            "min_bite": 125,
+            "hunger_rate": 50,
+            "calories": 500,
             "sight": 1000,
-            "calories": 300,
             "max_speed": 20
         }
 
