@@ -20,7 +20,9 @@ class Pelican(Agent):
             "min_bite": 125,
             "hunger_rate": 50,
             "calories": 500,
-            "sight": 1000,
+            "sight": 750,
+            "repro_max_cooldown": 10,
+            "repro_cooldown": 10,
             "max_speed": 20
         }
 

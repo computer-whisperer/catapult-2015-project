@@ -24,7 +24,7 @@ class Food(Trait):
     def do_update(self, dt_hours):
         total_effect = Vector2D()
 
-        for target_agent in self.agent.world.agents_in_range(self.agent.position, self.agent.agent_data["sight"]):
+        for target_agent in self.agent.get_visible_agents():
             if target_agent is self.agent:
                 continue
             if isinstance(target_agent, type(self.agent)):

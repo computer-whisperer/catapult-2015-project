@@ -16,7 +16,7 @@ class PersonalSpace(Trait):
 
         total_effect = Vector2D()
         crowd_score = 0
-        for target_agent in self.agent.world.agents_in_range(self.agent.position, self.agent.agent_data["personal_space"]*2):
+        for target_agent in self.agent.get_visible_agents():
             if target_agent is self.agent or type(target_agent) != type(self.agent):
                 continue
             delta = target_agent.position - self.agent.position

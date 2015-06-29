@@ -7,7 +7,7 @@ from traits import *
 import math
 
 GRID_SIZE = 100
-LAZY_UPDATE_TIMER_RESET = 1
+LAZY_UPDATE_TIMER_RESET = 2
 
 class World(object):
 
@@ -63,7 +63,7 @@ class World(object):
             },
             "Pelican": {
                 "class": Pelican,
-                "count": 1,
+                "count": 2,
                 "spawn_area_top_left": Vector2D(-dimensions.x/2, -dimensions.y/2),
                 "spawn_area_bottom_right": Vector2D(dimensions.x/2, dimensions.y/2),
                 "extra_traits": []
@@ -95,7 +95,6 @@ class World(object):
         agent.position = pos
         agent.set_world(self)
         self.agents.append(agent)
-        print("{} {} spawned!".format(type, agent.id))
 
     def agents_in_range(self, point, radius=-1):
         if radius < 0:
@@ -138,6 +137,7 @@ class World(object):
                     "sim_fph": 1/sim_dt,
                     "sim_age (days)": self.sim_age
                 }
+                # First lazy update pass
                 for agent in self.agents:
                     # Process grid
                     cell_x, cell_y = int(agent.position.x//GRID_SIZE), int(agent.position.y//GRID_SIZE)
@@ -151,8 +151,10 @@ class World(object):
                     if agent.agent_type not in self.stats:
                         self.stats[agent.agent_type] = 0
                     self.stats[agent.agent_type] += 1
+                # Second lazy update pass
+                for agent in self.agents:
+                    agent.do_lazy_update()
 
-                self.grid_dirty = False
                 self.lazy_update_timer = LAZY_UPDATE_TIMER_RESET
 
             # Process agent updates
@@ -169,6 +171,7 @@ class World(object):
             # Process timer updates
             self.lazy_update_timer -= sim_dt
             self.sim_age += sim_dt/24
+
 
     def do_move(self, sim_dt):
 

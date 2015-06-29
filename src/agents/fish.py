@@ -67,7 +67,7 @@ class Fish(Agent):
         pos = self.position
         if self.cycle_state == 0:
             if self.sprite is None:
-                self.sprite = Circle(self.position, 10)
+                self.sprite = Circle(self.position, 3*self.world.scale)
                 self.sprite.setFill(color_rgb(255, 0, 0))
                 self.sprite.draw(self.world.window)
         else:

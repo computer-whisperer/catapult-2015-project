@@ -3,6 +3,8 @@ from utilities import *
 from graphics import *
 from traits import *
 
+
+
 class Agent(object):
     last_agent_id = 0
     agent_type = ""
@@ -34,6 +36,8 @@ class Agent(object):
         self.agent_data = self.init_agent_data()
         self.add_traits(self.default_traits)
 
+        self.visible_agents = []
+
     def add_traits(self, traits):
         for trait in traits:
             for existing_trait in self.traits:
@@ -55,6 +59,11 @@ class Agent(object):
         self.movement = Vector2D()
         for trait in self.traits:
             trait.do_update(dt_hours)
+
+    def do_lazy_update(self):
+        self.visible_agents = []
+        for agent in self.world.agents_in_range(self.position, self.agent_data["sight"]):
+            self.visible_agents.append(agent)
 
     def do_move(self, dt_hours):
         for trait in self.traits:
@@ -83,7 +92,9 @@ class Agent(object):
 
     def on_death(self):
         if self.alive:
-            print("{} {} died!".format(self.agent_type, self.id))
             if self.sprite is not None:
                 self.sprite.undraw()
             self.alive = False
+
+    def get_visible_agents(self):
+        return self.visible_agents

@@ -14,7 +14,7 @@ class SocialEffect(Trait):
 
     def do_update(self, dt_hours):
         total_effect = Vector2D()
-        for target_agent in self.agent.world.agents_in_range(self.agent.position, -1):
+        for target_agent in self.agent.get_visible_agents():
             if target_agent is self.agent or type(target_agent) != type(self.agent):
                 continue
             delta = target_agent.position - self.agent.position

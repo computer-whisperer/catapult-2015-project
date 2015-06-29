@@ -12,7 +12,7 @@ SIMULATION_RATE = 8  # Ratio of in-sim hours to real-life seconds
 MAX_UPDATE = .75
 
 SCALE = 2
-WORLD_DIMENSIONS = Vector2D(2500, 250)
+WORLD_DIMENSIONS = Vector2D(2500, 500)
 
 USE_CONTROLLER = True
 AUTOSTART = True
