@@ -56,7 +56,7 @@ class World(object):
             },
             "Fish": {
                 "class": Fish,
-                "count": 10,
+                "count": 20,
                 "spawn_area_top_left": Vector2D(-dimensions.x/2, -dimensions.y/2),
                 "spawn_area_bottom_right": Vector2D(dimensions.x/2, dimensions.y/2),
                 "extra_traits": []

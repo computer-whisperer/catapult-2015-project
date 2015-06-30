@@ -1,5 +1,6 @@
 from agents import Agent
 from graphics import *
+import random
 import traits
 
 class Pelican(Agent):
@@ -18,12 +19,13 @@ class Pelican(Agent):
         return {
             "max_bite": 300,
             "min_bite": 125,
+            "hunger": 250,
             "hunger_rate": 50,
             "calories": 500,
             "sight": 750,
             "repro_max_cooldown": 10,
             "repro_cooldown": 10,
-            "max_speed": 20
+            "max_speed": 12
         }
 
     def init_sprite(self):

@@ -20,7 +20,7 @@ class Fish(Agent):
             "max_bite": 50,
             "min_bite": 5,
             "hunger": 0,
-            "repro_max_cooldown": 100,
+            "repro_max_cooldown": 1,
             "repro_cooldown": 6,
             "age_days": random.random()*4,
             "sight": 500,
@@ -52,7 +52,6 @@ class Fish(Agent):
                 "calories": 300,
                 "hunger_rate": 120,
                 "max_speed": 12,
-                "repro_max_cooldown": 1
             })
         super().do_update(dt_hours)
 

@@ -19,7 +19,7 @@ class Carp(Fish):
         return {
             "max_bite": 60,
             "min_bite": 5,
-            "repro_max_cooldown": 20,
+            "repro_max_cooldown": 1,
             "repro_cooldown": 6,
             "repro_radius": 15,
             "personal_space": 10,
@@ -43,17 +43,16 @@ class Carp(Fish):
             self.cycle_state = 1
             self.agent_data.update({
                 "calories": 200,
-                "hunger_rate": 40,
-                "max_speed": 10,
+                "hunger_rate": 70,
+                "max_speed": 8,
             })
         else:
             # Carp is an adult, set stuff appropriately
             self.cycle_state = 2
             self.agent_data.update({
                 "calories": 400,
-                "hunger_rate": 80,
-                "max_speed": 20,
-                "repro_max_cooldown": 1
+                "hunger_rate": 140,
+                "max_speed": 16,
             })
 
         Agent.do_update(self, dt_hours)

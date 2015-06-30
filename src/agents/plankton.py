@@ -26,7 +26,7 @@ class Plankton(Agent):
             "personal_space_tolerance": 10,
             "flee_predator": True,
             "sight": 75,
-            "max_speed": 5,
+            "max_speed": 2,
         }
 
     def init_sprite(self):

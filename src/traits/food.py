@@ -29,7 +29,8 @@ class Food(Trait):
                 continue
             if isinstance(target_agent, type(self.agent)):
                 continue
-
+            if not target_agent.alive:
+                continue
             if target_agent.agent_data["calories"] < self.agent.agent_data["hunger"] and\
                 self.agent.agent_data["min_bite"] <=\
                 target_agent.agent_data["calories"] <= \

@@ -66,3 +66,4 @@ class Controller(threading.Thread):
 
     def reset_sim(self):
         self.world.do_reset = True
+
