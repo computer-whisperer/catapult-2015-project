@@ -30,7 +30,7 @@ class World(object):
 
         self.stats = {}
 
-        self.window = GraphWin(title="My World", width=dimensions.x/scale, height=dimensions.y/scale, autoflush=False)
+        self.window = GraphWin(title="River Ecosystem Model", width=dimensions.x/scale, height=dimensions.y/scale, autoflush=False)
         self.window.setCoords(-dimensions.x/2, dimensions.y/2, dimensions.x/2, -dimensions.y/2)
         self.window.setBackground(color_rgb(255, 255, 255))
 
@@ -49,7 +49,7 @@ class World(object):
             },
             "Carp": {
                 "class": Carp,
-                "count": 0,
+                "count": 5,
                 "spawn_area_top_left": Vector2D(-dimensions.x/2, -dimensions.y/2),
                 "spawn_area_bottom_right": Vector2D((3/4)*(-dimensions.x/2), dimensions.y/2),
                 "extra_traits": []
