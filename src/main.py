@@ -1,6 +1,7 @@
 from utilities import *
 from world import World
 from controller import Controller
+from sys import argv
 import time
 
 # Simulation Timing:
@@ -21,6 +22,9 @@ def main():
 
     world = World(WORLD_DIMENSIONS, SCALE, SIMULATION_RATE, MAX_UPDATE)
     world.run = AUTOSTART
+
+    if "--carp" in argv:
+        world.population_gen_params["Carp"]["count"] = 5
 
     if USE_CONTROLLER:
         controller = Controller(world)
